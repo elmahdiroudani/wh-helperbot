@@ -707,13 +707,11 @@ app.post('/webhook', async (req, res) => {
 
         console.log(`📱 Received message: "${text}" from ${userName} (${chatId})`);// Analyze user intent and generate friendly response
         const intent = conversationalBot.analyzeIntent(text); console.log(`🔍 Text: "${text}" | Intent detected: ${intent}`);
-        const responseText = conversationalBot.generateFriendlyResponse(intent, universityData);
-
-        console.log(`🤖 Intent: ${intent} | Response length: ${responseText.length}`);// Send response via Telegram API
+        const responseText = conversationalBot.generateFriendlyResponse(intent, universityData);        console.log(`🤖 Intent: ${intent} | Response length: ${responseText.length}`);// Send response via Telegram API
         await axios.post(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
             chat_id: chatId,
-            text: responseText,
-            parse_mode: 'Markdown'
+            text: responseText
+            // Removed parse_mode to avoid Markdown formatting issues
         });
 
         console.log('✅ Message sent successfully');
